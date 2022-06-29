@@ -1,3 +1,5 @@
+import sys
+
 string = str(open(sys.argv[1],"r").read().strip())
 arr = string.split()
 s = []
