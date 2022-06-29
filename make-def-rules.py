@@ -1,4 +1,4 @@
-string = str(open("C:\\Users\\balak\\Desktop\\new-2.txt", "r").read().strip())
+string = str(open(sys.argv[1],"r").read().strip())
 arr = string.split()
 s = []
 ending = ""
