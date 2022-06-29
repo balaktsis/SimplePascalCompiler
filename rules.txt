@@ -1,0 +1,115 @@
+program  :  header declarations subprograms comp_statement DOT
+header  :  PROGRAM ID SEMI
+declarations  :  constdefs typedefs vardefs
+constdefs  :  CONST constant_defs SEMI
+constdefs  :  ~
+constant_defs  :  constant_defs SEMI ID EQU expression
+constant_defs  :  ID EQU expression
+expression  :  expression RELOP expression
+expression  :  expression EQU expression
+expression  :  expression INOP expression
+expression  :  expression OROP expression
+expression  :  expression ADDOP expression
+expression  :  expression MULDIVANDOP expression
+expression  :  ADDOP expression
+expression  :  NOTOP expression
+expression  :  variable
+expression  :  ID LPAREN expressions RPAREN
+expression  :  constant
+expression  :  LPAREN expression RPAREN
+expression  :  setexpression
+variable  :  ID
+variable  :  variable DOT ID
+variable  :  variable LBRACK expressions RBRACK
+expressions  :  expressions COMMA expression
+expressions  :  expression
+constant  :  ICONST
+constant  :  RCONST
+constant  :  BCONST
+constant  :  CCONST
+setexpression  :  LBRACK elexpressions RBRACK
+setexpression  :   LBRACK RBRACK
+elexpressions  :  elexpressions COMMA elexpression
+elexpressions  :  elexpression
+elexpression  :  expression DOTDOT expression
+elexpression  :  expression
+typedefs  :  TYPE type_defs SEMI
+typedefs  :  ~
+type_defs  :  type_defs SEMI ID EQU type_def 
+type_defs  :  ID EQU type_def
+type_def  :  ARRAY LBRACK dims RBRACK OF typename
+type_def  :   SET OF typename
+type_def  :  RECORD fields END
+type_def  :  LPAREN identifiers RPAREN
+type_def  :  limit DOTDOT limit
+dims  :  dims COMMA limits
+dims  :  limits
+limits  :  limit DOTDOT limit
+limits  :  ID
+limit  :  ADDOP ICONST
+limit  :  ADDOP ID
+limit  :  ICONST
+limit  :  CCONST
+limit  :  BCONST
+limit  :  ID
+typename  :  standard_type
+typename  :  ID
+standard_type  :  INTEGER 
+standard_type  :  REAL 
+standard_type  :  BOOLEAN 
+standard_type  :  CHAR
+fields  :  fields SEMI field
+fields  :  field
+field  :  identifiers COLON typename
+identifiers  :  identifiers COMMA ID
+identifiers  :  ID
+vardefs  :  VAR variable_defs SEMI
+vardefs  :  ~
+variable_defs  :  variable_defs SEMI identifiers COLON typename
+variable_defs  :  identifiers COLON typename
+subprograms  :  subprograms subprogram SEMI
+subprograms  :  ~
+subprogram  :  sub_header SEMI FORWARD
+subprogram  :   sub_header SEMI declarations subprograms comp_statement
+sub_header  :  FUNCTION ID formal_parameters COLON standard_type
+sub_header  :  PROCEDURE ID formal_parameters
+sub_header  :  FUNCTION ID
+formal_parameters  :  LPAREN parameter_list RPAREN
+formal_parameters  :  ~
+parameter_list  :  parameter_list SEMI pass identifiers COLON typename
+parameter_list  :  pass identifiers COLON typename
+pass  :  VAR
+pass  :  ~
+comp_statement  :  BEGIN statements END
+statements  :  statements SEMI statement
+statements  :   statement
+statement  :  assignment
+statement  :   if_statement
+statement  :   while_statement
+statement  :   for_statement
+statement  :   with_statement
+statement  :   subprogram_call
+statement  :   io_statement
+statement  :   comp_statement
+statement  :  ~
+assignment  :  variable ASSIGN expression
+assignment  :   variable ASSIGN STRING
+if_statement  :  IF expression THEN statement if_tail
+if_tail  :  ELSE statement
+if_tail  :  ~
+while_statement  :  WHILE expression DO statement
+for_statement  :  FOR ID ASSIGN iter_space DO statement
+iter_space  :  expression TO expression
+iter_space  :  expression DOWNTO expression
+with_statement  :  WITH variable DO statement
+subprogram_call  :  ID
+subprogram_call  :   ID LPAREN expressions RPAREN
+io_statement  :  READ LPAREN read_list RPAREN
+io_statement  :   WRITE LPAREN write_list RPAREN
+read_list  :  read_list COMMA read_item
+read_list  :   read_item
+read_item  :  variable
+write_list  :  write_list COMMA write_item
+write_list  :  write_item
+write_item  :  expression
+write_item  :   STRING
