@@ -1,6 +1,6 @@
 import sys
 
-string = str(open(sys.argv[1],"r").read().strip())
+string = str(open(sys.argv[1], "r").read().strip())
 arr = string.split()
 s = []
 ending = ""
@@ -19,5 +19,8 @@ for i,word in enumerate(arr):
         if word=="~":
             word=" "
         print(word, end=' ')
+    elif i+1==len(arr):
+        print(word, end=' ')
+        print("\n\t\'\'\'\n\t" + "pass\n")
     elif i!=0:
         print("\n\t\'\'\'\n\t" + "pass\n")
